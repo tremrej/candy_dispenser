@@ -14,6 +14,14 @@
 
 AF_Stepper motor1(200, 1);    // 200 steps, port 1
 
+// Circonference nominal (20 teeth, 9 pitch)
+#define circonference  (3.1416 * 28.68)
+int distanceToStep(int distance)
+{
+    //return (distance / circonference) * 200;
+    return (distance / circonference) * 200;   // INTERLEAVE
+}
+
 #define buttonTrigger A0
 #define switchHome A1
 
@@ -77,8 +85,8 @@ void loop()
         else if (direction_g == push_c)
         {
             // Push a candy
-            //stepper.moveTo(+125);     // SINGLE or DOUBLE
-            stepper.moveTo(+250);       // INTERLEAVE
+            //stepper.moveTo(+225);       // INTERLEAVE
+            stepper.moveTo(distanceToStep(90));
             stepper.run();
             //Serial.print("dtg:");
             //Serial.println(stepper.distanceToGo());
