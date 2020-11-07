@@ -109,7 +109,8 @@ void loop()
     if (state_g == idle_c)
     {
         // Check the trigger button
-        if (digitalRead(buttonTrigger) == LOW)
+        if (digitalRead(buttonTrigger) == LOW ||
+            Serial.read() == 'B')
         {
             // Button pressed
             state_g = running_1_c;
