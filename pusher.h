@@ -2,7 +2,7 @@
  * @file pusher.cpp
  *
  * Definition of the class Pusher.
- * It implemented a state machine to control a cycle to push a candy out.
+ * It implementes a state machine to control a cycle to push a candy out.
  *
  */
 
@@ -26,7 +26,7 @@ public:
           , float         pitchRadius
           , float         distanceToPush
           , AccelStepper *motor
-          , int           switchHome);
+          , int           switchHome);     // Arduino port number of the switch home.
 
     ~Pusher();
 
@@ -39,6 +39,7 @@ public:
     PusherState_e getCurrentState() {return state_m;};
 
     void resetCnt() {candyCnt_m = 0;};
+    int  getCnt() {return candyCnt_m;};
 
 private:
 

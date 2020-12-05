@@ -2,7 +2,7 @@
  * @file pusher.cpp
  *
  * Definition of the class Pusher.
- * It implemented a state machine to control a cycle to push a candy out.
+ * It implementes a state machine to control a cycle to push a candy out.
  *
  */
 
