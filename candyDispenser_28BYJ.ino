@@ -23,60 +23,28 @@ typedef enum {
 
 DispenserState_e state_g = idle_c;
 
-// Stepper on shield V1
-AF_Stepper motor1(200, 1);    // 200 steps, port 1
-AF_Stepper motor2(200, 2);    // 200 steps, port 2
-
-// Stepper on shield V2
-Adafruit_MotorShield AFMS = Adafruit_MotorShield(); 
-
-Adafruit_StepperMotor *motor3 = AFMS.getStepper(200, 1);
-
 #define buttonTrigger A0
 #define switchHome1 A1
 #define switchHome2 A2
 #define switchHome3 A3
 
-// you can change these to DOUBLE or INTERLEAVE or MICROSTEP!
-void forwardstep1() {  
-  motor1.onestep(FORWARD, INTERLEAVE);
-}
-void backwardstep1() {  
-  motor1.onestep(BACKWARD, INTERLEAVE);
-}
-void releaseStep1() {
-    motor1.release();
-}
+#define motor1StepPin 2    // X
+#define motor2StepPin 3    // Y
+#define motor3StepPin 4    // Z
+#define motor1DirPin  5
+#define motor2DirPin  6
+#define motor3DirPin  7
 
-void forwardstep2() {  
-  motor2.onestep(FORWARD, INTERLEAVE);
-}
-void backwardstep2() {  
-  motor2.onestep(BACKWARD, INTERLEAVE);
-}
-void releaseStep2() {
-    motor2.release();
-}
-
-void forwardstep3() {  
-  motor3->onestep(FORWARD, INTERLEAVE);
-}
-void backwardstep3() {  
-  motor3->onestep(BACKWARD, INTERLEAVE);
-}
-void releaseStep3() {
-    motor3->release();
-}
+#define motorEnablePin 8
 
 
+AccelStepper stepper1 = AccelStepper(AccelStepper::DRIVER, motor1StepPin, motor1DirPin);
+AccelStepper stepper2 = AccelStepper(AccelStepper::DRIVER, motor2StepPin, motor2DirPin);
+AccelStepper stepper3 = AccelStepper(AccelStepper::DRIVER, motor3StepPin, motor3DirPin);
 
-AccelStepper stepper1(forwardstep1, backwardstep1, releaseStep1); // use functions to step
-AccelStepper stepper2(forwardstep2, backwardstep2, releaseStep2); // use functions to step
-AccelStepper stepper3(forwardstep3, backwardstep3, releaseStep3); // use functions to step
-
-Pusher pusher1 (400, 28.58, 125, &stepper2, switchHome1);
-Pusher pusher2 (400, 28.58, 100, &stepper1, switchHome2);
-Pusher pusher3 (400, 28.58, 100.0, &stepper3, switchHome3);
+Pusher pusher1 (-400*8, 28.58, 125, &stepper1, switchHome1);
+Pusher pusher2 (-400*8, 28.58, 100, &stepper2, switchHome2);
+Pusher pusher3 (-400*8, 28.58, 130.0, &stepper3, switchHome3);
 
 
 void setup()
@@ -88,24 +56,50 @@ void setup()
    pinMode(switchHome1, INPUT_PULLUP);        // LOW when home.
    pinMode(switchHome2, INPUT_PULLUP);        // LOW when home.
    pinMode(switchHome3, INPUT_PULLUP);        // LOW when home.
+
+   pinMode(motorEnablePin, OUTPUT);
+   pinMode(LED_BUILTIN, OUTPUT);
    
-   // Init shield V2
-   AFMS.begin();  // create with the default frequency 1.6KHz
-  
-   stepper1.setMaxSpeed(400);	     // INTERLEAVE
-   stepper1.setAcceleration(2000);	
-   stepper2.setMaxSpeed(400);	     // INTERLEAVE
-   stepper2.setAcceleration(2000);	
-   stepper3.setMaxSpeed(400);	     // INTERLEAVE
-   stepper3.setAcceleration(2000);	
+   stepper1.setMaxSpeed(3000);	     // INTERLEAVE
+   stepper1.setAcceleration(30000);	
+   stepper2.setMaxSpeed(3000);	     // INTERLEAVE
+   stepper2.setAcceleration(30000);	
+   stepper3.setMaxSpeed(3000);	     // INTERLEAVE
+   stepper3.setAcceleration(30000);	
 
    pusher1.stop();
    pusher2.stop();
    pusher3.stop();
+
+   digitalWrite(motorEnablePin, HIGH);
 }
 
 void loop()
 {  
+
+/*
+        digitalWrite(LED_BUILTIN, HIGH);
+        stepper1.moveTo(400*8);
+        stepper1.runToPosition();
+        
+        digitalWrite(LED_BUILTIN, LOW);
+        digitalWrite(motorEnablePin, HIGH);
+        //delay(2000);
+        digitalWrite(motorEnablePin, LOW);
+        stepper1.moveTo(0);
+        stepper1.runToPosition();
+
+        stepper2.moveTo(400*8);
+        stepper2.runToPosition();
+        stepper2.moveTo(0);
+        stepper2.runToPosition();
+
+        stepper3.moveTo(400*8);
+        stepper3.runToPosition();
+        stepper3.moveTo(0);
+        stepper3.runToPosition();
+*/
+
     if (state_g == idle_c)
     {
         // Check the trigger button
@@ -113,6 +107,7 @@ void loop()
             Serial.read() == 'B')
         {
             // Button pressed
+            digitalWrite(motorEnablePin, LOW);
             state_g = running_1_c;
             pusher1.startCycle();
         }
@@ -141,6 +136,7 @@ void loop()
         {
             // Pusher 3 is done.
             state_g = idle_c;
+            digitalWrite(motorEnablePin, HIGH);
         }
     }
 

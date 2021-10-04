@@ -77,7 +77,7 @@ Pusher::PusherState_e Pusher::run()
         {
              // End of cycle
              state_m = idle_c;
-             motor_m->release();
+             //motor_m->release();
              candyCnt_m++;
         }
     }
@@ -94,7 +94,7 @@ Pusher::PusherState_e Pusher::startCycle()
 void Pusher::stop()
 {
     state_m = idle_c;
-    motor_m->release();
+    //motor_m->release();
 }
 
 int Pusher::distanceToStep(float distance)
