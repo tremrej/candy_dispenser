@@ -10,8 +10,6 @@
 // for examples that work with Adafruit Motor Shield V2.
 
 #include <AccelStepper.h>
-#include <AFMotor.h>
-#include <Adafruit_MotorShield.h>
 #include "pusher.h"
 
 typedef enum {
@@ -24,6 +22,7 @@ typedef enum {
 DispenserState_e state_g = idle_c;
 
 #define buttonTrigger A0
+#define buttonTrigger2 11    // pin servo on Eleksmana v5.2
 #define switchHome1 A1
 #define switchHome2 A2
 #define switchHome3 A3
@@ -53,6 +52,7 @@ void setup()
    Serial.println("stepper1 test!");
 
    pinMode(buttonTrigger, INPUT_PULLUP);     // LOW when pressed.
+   pinMode(buttonTrigger2, INPUT_PULLUP);     // LOW when pressed.
    pinMode(switchHome1, INPUT_PULLUP);        // LOW when home.
    pinMode(switchHome2, INPUT_PULLUP);        // LOW when home.
    pinMode(switchHome3, INPUT_PULLUP);        // LOW when home.
@@ -60,11 +60,11 @@ void setup()
    pinMode(motorEnablePin, OUTPUT);
    pinMode(LED_BUILTIN, OUTPUT);
    
-   stepper1.setMaxSpeed(3000);	     // INTERLEAVE
+   stepper1.setMaxSpeed(4000);	     // INTERLEAVE
    stepper1.setAcceleration(30000);	
-   stepper2.setMaxSpeed(3000);	     // INTERLEAVE
+   stepper2.setMaxSpeed(4000);	     // INTERLEAVE
    stepper2.setAcceleration(30000);	
-   stepper3.setMaxSpeed(3000);	     // INTERLEAVE
+   stepper3.setMaxSpeed(4000);	     // INTERLEAVE
    stepper3.setAcceleration(30000);	
 
    pusher1.stop();
@@ -104,6 +104,7 @@ void loop()
     {
         // Check the trigger button
         if (digitalRead(buttonTrigger) == LOW ||
+            digitalRead(buttonTrigger2) == LOW ||
             Serial.read() == 'B')
         {
             // Button pressed
