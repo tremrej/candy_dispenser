@@ -41,15 +41,15 @@ AccelStepper stepper1 = AccelStepper(AccelStepper::DRIVER, motor1StepPin, motor1
 AccelStepper stepper2 = AccelStepper(AccelStepper::DRIVER, motor2StepPin, motor2DirPin);
 AccelStepper stepper3 = AccelStepper(AccelStepper::DRIVER, motor3StepPin, motor3DirPin);
 
-Pusher pusher1 (-400*8, 28.58, 125, &stepper1, switchHome1);
-Pusher pusher2 (-400*8, 28.58, 100, &stepper2, switchHome2);
-Pusher pusher3 (-400*8, 28.58, 130.0, &stepper3, switchHome3);
+Pusher pusher1 (-400*8, 28.58, 125,  50, &stepper1, switchHome1);
+Pusher pusher2 (-400*8, 28.58, 100,   0, &stepper2, switchHome2);
+Pusher pusher3 (-400*8, 28.58, 130.0, 0, &stepper3, switchHome3);
 
 
 void setup()
 {  
    Serial.begin(115200);           // set up Serial library at 9600 bps
-   Serial.println("stepper1 test!");
+   Serial.println("Distributeur de bonbons!");
 
    pinMode(buttonTrigger, INPUT_PULLUP);     // LOW when pressed.
    pinMode(buttonTrigger2, INPUT_PULLUP);     // LOW when pressed.

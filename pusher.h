@@ -17,14 +17,22 @@ public:
 
     typedef enum {
         idle_c,
-        goingHome_c,
+        startCycle_c,
+        goingToZero_c,
+        homing_c,      // Go to the limit switch.
         pushing_c,
         goingBackHome_c
     } PusherState_e;
 
+    typedef enum {
+        notHome_c,
+        atHome_c
+    } HomeState_e;
+
     Pusher( int           stepPerRotation
           , float         pitchRadius
           , float         distanceToPush
+          , float         distanceAtHome   // Always use homing switch if zero
           , AccelStepper *motor
           , int           switchHome);     // Arduino port number of the switch home.
 
@@ -50,9 +58,12 @@ private:
     AccelStepper *motor_m;
     int           switchHome_m;         // input port of home limit switch
     float         distanceToPush_m;     // mm
+    float         distanceAtHome_m;     // mm Distances at home from homing switch
 
-    int           nbStepToPush_m;
+    int           nbStepToPush_m;       // From home
+    int           nbStepAtHome_m;
     PusherState_e state_m;
+    HomeState_e   homeState_m;
     int           candyCnt_m;
 
 };
