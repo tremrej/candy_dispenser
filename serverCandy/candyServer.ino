@@ -1,6 +1,8 @@
 // This is UDP server which output the letter 'B' on the serial port when receiving a message from UDP port 8888 
 // This is used to activate a cycle of the candy dispenser.
 
+// To compile in Arduino IDE: board ESP8266 Modules/Adafruit HUZZAH ESP8266
+
 #include <ESP8266WiFi.h>
 #include <WiFiUdp.h>
 
