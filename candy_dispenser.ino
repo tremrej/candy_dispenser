@@ -1,14 +1,5 @@
-// AFMotor_ConstantSpeed.pde
-// -*- mode: C++ -*-
+// Candy dispenser with Eleksmana v5.2
 //
-// Shows how to run AccelStepper in the simplest,
-// fixed speed mode with no accelerations
-// Requires the AFMotor library
-// (https://github.com/adafruit/Adafruit-Motor-Shield-library)
-// Caution, does not work with Adafruit Motor Shield V2
-// See https://github.com/adafruit/Adafruit_Motor_Shield_V2_Library 
-// for examples that work with Adafruit Motor Shield V2.
-
 // To compile:
 // Board type Arduino Nano (Old bootloader)
 
