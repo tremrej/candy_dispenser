@@ -9,6 +9,9 @@
 // See https://github.com/adafruit/Adafruit_Motor_Shield_V2_Library 
 // for examples that work with Adafruit Motor Shield V2.
 
+// To compile:
+// Board type Arduino Nano (Old bootloader)
+
 #include <AccelStepper.h>
 #include "pusher.h"
 
@@ -41,9 +44,10 @@ AccelStepper stepper1 = AccelStepper(AccelStepper::DRIVER, motor1StepPin, motor1
 AccelStepper stepper2 = AccelStepper(AccelStepper::DRIVER, motor2StepPin, motor2DirPin);
 AccelStepper stepper3 = AccelStepper(AccelStepper::DRIVER, motor3StepPin, motor3DirPin);
 
-Pusher pusher1 (-400*8, 28.58, 125,  50, &stepper1, switchHome1);
-Pusher pusher2 (-400*8, 28.58, 100,   0, &stepper2, switchHome2);
-Pusher pusher3 (-400*8, 28.58, 130.0, 0, &stepper3, switchHome3);
+//Pusher pusher1 (-400*8, 28.58, 125,  50, &stepper1, switchHome1);      // citrouille
+Pusher pusher1 (-400*8, 28.58, 100,   0, &stepper1, switchHome1);        // Kitkat
+Pusher pusher2 (-400*8, 28.58, 100,   0, &stepper2, switchHome2);        // Aero
+Pusher pusher3 (-400*8, 28.58, 130.0, 0, &stepper3, switchHome3);        // Rocket
 
 
 void setup()
